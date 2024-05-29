@@ -9,9 +9,7 @@ const App = () => {
   const fetchData = () => {
     setLoading(true);
     fetch('https://testapi.devtoolsdaily.com/users')
-      .then((resp) => {
-        return resp.json();
-      })
+      .then((resp) => resp.json())
       .then((data) => {
         setItems(data);
         setDisplayedItems(data.slice(0, 20));
@@ -45,7 +43,7 @@ const App = () => {
       displayedItems.length,
       displayedItems.length + 20
     );
-    setDisplayedItems((prevItem) => [...prevItem, ...nextItems]);
+    setDisplayedItems((prevItems) => [...prevItems, ...nextItems]);
   };
 
   useEffect(() => {
@@ -53,22 +51,20 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // This means that whenever the user scrolls the window, the handleScroll function will be executed.
     console.log('Adding scroll event listener');
     window.addEventListener('scroll', handleScroll);
 
-    // This is the cleanup function. It is returned from the useEffect hook and will be executed when the component unmounts or when the dependencies specified in the dependency array change
     return () => {
       console.log('Removing scroll event listener');
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [loading, hasMore]);
+  }, []);
 
   return (
     <div>
-      <h1> Infinite scroll</h1>
-      {displayedItems.map((item, index) => (
-        <div key={index} style={{ overflow: 'scroll', height: '30px' }}>
+      <h1> Infinite Scroll</h1>
+      {displayedItems.map((item) => (
+        <div key={item.id} style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
           {item.firstName}
         </div>
       ))}
